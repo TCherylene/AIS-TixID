@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 
 var morgan = require('morgan');
 const app = express();
+var http = require('http').Server(app);
+const io = require('socket.io')(http);
 // var cors = require('cors');
 
 //parse application/json
@@ -37,8 +39,15 @@ app.use(function(req, res, next){
 var routes = require('./routes');
 routes(app);
 
-//daftarkan menu routes dari index
-app.use('/api', require('./middleware'));
+// Daftarkan menu routes dari index
+app.use('/api', require('./app'));
+
+io.on('connection', (socket) => {
+    console.log('user connected');
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
+    });
+})
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
