@@ -1,20 +1,21 @@
 CREATE TABLE Users (
-	id_user int,
+	id_user int AUTO_INCREMENT,
     nama varchar (30),
     nomorhp varchar (20),
+    password varchar (30)
     
     PRIMARY KEY (id_user)
 );
 
 CREATE TABLE Bioskop (
-	id_bioskop int, 
+	id_bioskop int AUTO_INCREMENT, 
     nama_bioskop varchar(50),
     
     PRIMARY KEY (id_bioskop)
 );
 
 CREATE TABLE Film (
-	id_film int,
+	id_film int AUTO_INCREMENT,
     judul_film varchar(50),
     tanggal_film date,
     waktu_film time,
@@ -24,7 +25,7 @@ CREATE TABLE Film (
 );
 
 CREATE TABLE Pembelian (
-	id_pembelian int,
+	id_pembelian int AUTO_INCREMENT,
     id_user int,
     id_film int,
     jumlah_tiket tinyint,
@@ -36,7 +37,7 @@ CREATE TABLE Pembelian (
 );
 
 CREATE TABLE History (
-	id_history int,
+	id_history int AUTO_INCREMENT,
     id_pembelian int,
     
     PRIMARY KEY (id_history)
