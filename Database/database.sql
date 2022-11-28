@@ -2,7 +2,6 @@ CREATE TABLE Users (
 	id_user int AUTO_INCREMENT,
     nama varchar (30),
     nomorhp varchar (20),
-    password varchar (30)
     
     PRIMARY KEY (id_user)
 );
@@ -43,6 +42,7 @@ CREATE TABLE History (
     PRIMARY KEY (id_history)
 );
 
+-- ADD FOREIGN KEY
 ALTER TABLE film
 ADD FOREIGN KEY (id_bioskop) REFERENCES bioskop(id_bioskop);
 
@@ -52,3 +52,8 @@ ADD FOREIGN KEY (id_film) REFERENCES film(id_film);
 
 ALTER TABLE history
 ADD FOREIGN KEY (id_pembelian) REFERENCES pembelian(id_pembelian);
+
+-- SELECT GABUNGAN HISTORY (TO BE UPDATED)
+SELECT * FROM history AS hs 
+JOIN Pembelian AS pb 
+ON hs.id_pembelian = pb.id_pembelian
