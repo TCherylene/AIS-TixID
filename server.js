@@ -12,7 +12,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-/* ------------ CORS -------------------
+/* 
+
+---------------- CORS -------------------
+
 app.use(cors({origin: '*'}));
 
 app.use(function(req, res, next){
@@ -40,7 +43,7 @@ var routes = require('./routes');
 routes(app);
 
 // Daftarkan menu routes dari index
-app.use('/api', require('./app'));
+app.use('/api', require('./router'));
 
 io.on('connection', (socket) => {
     console.log('user connected');

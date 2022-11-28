@@ -2,18 +2,18 @@ var mysql = require('mysql');
 var response = require('../res');
 var jwt = require('jsonwebtoken');
 var config = require('../config/secret');
-const conn = require('../connection');
+const conn = require('../middleware/connection');
 
 var error1 = "hello";
 
 function serverErrorResponse(error1, error) {
      return response.serverError(error1, error);
 }
- 
+
 function successResponse(message, res){
      return response.success(message, res)
 }
- 
+
 function userErrorResponse(message, res){
      return response.failed(message, res)
 }
@@ -44,7 +44,7 @@ exports.registrasi = function (req, res) {
             if (rows.length == 0){
                 var queryInsertData = "INSERT INTO users(nama, password, nomorhp) VALUES(?, ?, ?)"
                 var table = [post.nama, post.password, post.nomorhp];
-    
+
                 conn.query(queryInsertData, table, function(error, result){
                     if (error) return serverErrorResponse(error1, error);
                     return successResponse("Pendaftaran berhasil", res);

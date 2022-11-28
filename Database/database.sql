@@ -2,6 +2,7 @@ CREATE TABLE Users (
 	id_user int AUTO_INCREMENT,
     nama varchar (30),
     nomorhp varchar (20),
+    password varchar (30)
     
     PRIMARY KEY (id_user)
 );

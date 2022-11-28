@@ -25,8 +25,5 @@ exports.serverError = function(message, res){
         "status": 500,
         "message": "Server Error"
     }
-    // return;
-
-    res.status(500).json(data);
-    res.end();
+    return;
 }
