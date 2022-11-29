@@ -1,3 +1,4 @@
+-- DIGUNAKAN UNTUK PEMBUATAN DATABASE (TANPA DATA)
 CREATE TABLE Users (
 	id_user int AUTO_INCREMENT,
     nama varchar (30),
@@ -54,13 +55,3 @@ ADD FOREIGN KEY (id_film) REFERENCES film(id_film);
 
 ALTER TABLE history
 ADD FOREIGN KEY (id_pembelian) REFERENCES pembelian(id_pembelian);
-
--- SELECT GABUNGAN HISTORY & PEMBELIAN
-SELECT * FROM history AS hs 
-JOIN Pembelian AS pb 
-ON hs.id_pembelian = pb.id_pembelian WHERE id_user = xxx
-
--- SELECT GABUNGAN FILM & BIOSKOP
-SELECT * FROM film AS fl
-JOIN bioskop AS bs
-ON bs.id_bioskop = fl.id_bioskop
