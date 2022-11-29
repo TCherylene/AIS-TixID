@@ -77,7 +77,7 @@ exports.login = function (req, res) {
          if (error) return serverErrorResponse(error1, error);
 
          if (rows.length == 1) {
-              var token = jwt.sign({rows}, config.secretKey);
+              var token = jwt.sign({rows}, config.secret);
 
               return res.status(200).json({
                    "status": 200,

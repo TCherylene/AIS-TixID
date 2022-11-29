@@ -20,6 +20,7 @@ CREATE TABLE Film (
     tanggal_film date,
     waktu_film time,
     id_bioskop int,
+    harga_tiket int
     
     PRIMARY KEY (id_film)
 );
@@ -29,8 +30,8 @@ CREATE TABLE Pembelian (
     id_user int,
     id_film int,
     jumlah_tiket tinyint,
-    tanggal_pembelian date,
-    waktu_pembelian time,
+    tanggal_pembelian date DEFAULT CURRENT_TIMESTAMP,
+    waktu_pembelian time DEFAULT CURRENT_TIMESTAMP,
     status_pembelian tinyint,
     
     PRIMARY KEY (id_pembelian)
@@ -54,7 +55,12 @@ ADD FOREIGN KEY (id_film) REFERENCES film(id_film);
 ALTER TABLE history
 ADD FOREIGN KEY (id_pembelian) REFERENCES pembelian(id_pembelian);
 
--- SELECT GABUNGAN HISTORY (TO BE UPDATED)
+-- SELECT GABUNGAN HISTORY & PEMBELIAN
 SELECT * FROM history AS hs 
 JOIN Pembelian AS pb 
-ON hs.id_pembelian = pb.id_pembelian
+ON hs.id_pembelian = pb.id_pembelian WHERE id_user = xxx
+
+-- SELECT GABUNGAN FILM & BIOSKOP
+SELECT * FROM film AS fl
+JOIN bioskop AS bs
+ON bs.id_bioskop = fl.id_bioskop
