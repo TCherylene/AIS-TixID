@@ -23,8 +23,7 @@ exports.registrasi = function (req, res) {
      var post = {
           nama: req.body.nama,
           password: req.body.password,
-          nomorhp: req.body.nomorhp,
-          email: req.body.email
+          nomorhp: req.body.nomorhp
      }
 
      var query = "SELECT nomorhp FROM users WHERE nomorhp = ?";
