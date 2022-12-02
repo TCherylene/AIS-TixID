@@ -3,7 +3,8 @@ CREATE TABLE Users (
 	id_user int AUTO_INCREMENT,
     nama varchar (30),
     nomorhp varchar (20),
-    password varchar (30)
+    password varchar (30),
+    email varchar (50)
     
     PRIMARY KEY (id_user)
 );
@@ -33,7 +34,7 @@ CREATE TABLE Pembelian (
     jumlah_tiket tinyint,
     tanggal_pembelian date DEFAULT CURRENT_TIMESTAMP,
     waktu_pembelian time DEFAULT CURRENT_TIMESTAMP,
-    status_pembelian tinyint,
+    status_pembelian tinyint, 
     
     PRIMARY KEY (id_pembelian)
 );
