@@ -4,7 +4,6 @@ CREATE TABLE Users (
     nama varchar (30),
     nomorhp varchar (20),
     password varchar (30),
-    email varchar (50)
     
     PRIMARY KEY (id_user)
 );

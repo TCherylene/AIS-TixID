@@ -12,9 +12,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-/* 
-
----------------- CORS -------------------
+// ---------------- CORS -------------------
 
 app.use(cors({origin: '*'}));
 
@@ -36,8 +34,7 @@ app.use(function(req, res, next){
     next();
 })
 
-------------------- END CORS ------------------------
-*/
+// ------------------- END CORS ------------------------
 
 var routes = require('./routes');
 routes(app);

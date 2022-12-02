@@ -9,6 +9,8 @@ router.get('/', (req, res) => {
     res.send("Hello world!");
 })
 
+// ----------------------------- API -----------------------------
+
 // Registrasi
 router.post('/profil', auth.registrasi);
 
@@ -25,6 +27,8 @@ router.get('/film/:id', jsonku.filmById);
 // GET History - Menampilkan informasi history pembelian
 router.get('/history', verifikasi(), jsonku.history);
 router.get('/history/:id', verifikasi(), jsonku.historyById);
+
+// ----------------------------- BACKUP API -----------------------------
 
 // GET PEMBELIAN - SEMENTARA AJA BUAT NGETES INSERT PEMBELIAN :)
 router.post('/pembelian', verifikasi(), backupsocket.pembelian);
