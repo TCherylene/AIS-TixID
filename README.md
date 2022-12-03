@@ -12,12 +12,18 @@ Database selesai.
 API:
 
 - Login
-- Sign Up
+- Sign Up - Belum terintegrasi
 - Mendapatkan informasi film (`GET /film` & `GET /film/:id`)
 - Mendapatkan history (`GET /history` & `GET /history/:id`)
-- *Melakukan request pembayaran ke DANA (`POST /pembelian`)* -- Bersifat sebagai ***backup*** apabila tidak bisa dilakukan dengan socket
+- Melakukan request pembayaran ke DANA (`POST /pembelian`) - Belum terintegrasi
 
-## In Progress
+## Belum berjalan
+
+- Integrasi dengan DANA (kelompok 6)
+- Mendeploy database secara online
+- Mendeploy API TIX ID secara online
+
+## Gajadi
 
 - Pembuatan backup API untuk `GET /transaksi`
 
@@ -30,9 +36,3 @@ Messaging to email:
 
 - Registrasi berhasil (`POST /profil`)
 - Pembayaran Berhasil
-
-## Belum berjalan
-
-Others:
-
-- Integrasi dengan DANA (kelompok 6)

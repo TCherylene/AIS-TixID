@@ -16,7 +16,7 @@ function userErrorResponse(message, res){
     return response.failed(message, res)
 }
 
-// ----- POST PEMBELIAN BY ID -----
+// ----- POST PEMBELIAN BY ID FILM -----
 exports.pembelian = function (req, res){
     var token = req.headers.authorization;
     var dataToken = parsetoken(token);

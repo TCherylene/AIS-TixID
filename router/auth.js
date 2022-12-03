@@ -48,6 +48,8 @@ exports.registrasi = function (req, res) {
                 conn.query(queryInsertData, table, function(error, result){
                     if (error) return serverErrorResponse(error1, error);
                     return successResponse("Pendaftaran berhasil", res);
+
+                    // TODO: Add Registrasi ke DANA
                 })
             } else {
                 return userErrorResponse("Nomor HP terlah terdaftar", res);
