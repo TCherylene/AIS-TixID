@@ -21,7 +21,7 @@ CREATE TABLE Film (
     tanggal_film date,
     waktu_film time,
     id_bioskop int,
-    harga_tiket int
+    harga_tiket int,
     
     PRIMARY KEY (id_film)
 );
@@ -46,12 +46,12 @@ CREATE TABLE History (
 );
 
 -- ADD FOREIGN KEY
-ALTER TABLE film
-ADD FOREIGN KEY (id_bioskop) REFERENCES bioskop(id_bioskop);
+ALTER TABLE Film
+ADD FOREIGN KEY (id_bioskop) REFERENCES Bioskop(id_bioskop);
 
-ALTER TABLE pembelian
-ADD FOREIGN KEY (id_user) REFERENCES users(id_user),
-ADD FOREIGN KEY (id_film) REFERENCES film(id_film);
+ALTER TABLE Pembelian
+ADD FOREIGN KEY (id_user) REFERENCES Users(id_user),
+ADD FOREIGN KEY (id_film) REFERENCES Film(id_film);
 
-ALTER TABLE history
-ADD FOREIGN KEY (id_pembelian) REFERENCES pembelian(id_pembelian);
+ALTER TABLE History
+ADD FOREIGN KEY (id_pembelian) REFERENCES Pembelian(id_pembelian);
