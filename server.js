@@ -5,7 +5,7 @@ var morgan = require('morgan');
 const app = express();
 var http = require('http').Server(app);
 const io = require('socket.io')(http);
-// var cors = require('cors');
+var cors = require('cors');
 
 //parse application/json
 app.use(bodyParser.urlencoded({extended: true}));

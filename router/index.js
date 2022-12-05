@@ -3,7 +3,6 @@ var router = express.Router();
 var verifikasi = require('../middleware/verifikasi')
 var auth = require('./auth');
 var jsonku = require('./logged_in');
-var backupsocket = require('./backup_socket');
 
 router.get('/', (req, res) => {
     res.send("Hello world!");
@@ -31,6 +30,6 @@ router.get('/history/:id', verifikasi(), jsonku.historyById);
 // ----------------------------- BACKUP API -----------------------------
 
 // GET PEMBELIAN - SEMENTARA AJA BUAT NGETES INSERT PEMBELIAN :)
-router.post('/pembelian', verifikasi(), backupsocket.pembelian);
+router.post('/pembelian', verifikasi(), jsonku.pembelian);
 
 module.exports = router;
