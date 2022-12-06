@@ -8,7 +8,7 @@ var mysql = require('mysql');
 const insertPembelian = require('../models/insertPembelian');
 
 function serverErrorResponse(error) {
-    throw error;
+    return console.log(error);
 }
 
 function successResponse(message, res){
@@ -25,7 +25,7 @@ exports.profil = function(req, res){
     var data = parsetoken(token)
 
     conn.query  ("SELECT * FROM users WHERE id_user = ? AND nomorhp = ?", [data.id_user, data.nomorhp], function(error, rows){
-        if(error) throw error;
+        if(error) serverErrorResponse(error);
 
         return res.status(200).json({
             "id_user": rows[0].id_user,
@@ -40,7 +40,7 @@ exports.film = function(req, res){
     var query = "SELECT * FROM film AS fl JOIN bioskop AS bs ON bs.id_bioskop = fl.id_bioskop"
 
     conn.query (query, function(error, rows){
-        if(error) throw error;
+        if(error) serverErrorResponse(error);
 
         var film = [];
         if (rows.length >= 1){
@@ -68,7 +68,7 @@ exports.filmById = function (req, res){
     var data = [post.id_film]
 
     conn.query (query, data, function(error, rows){
-        if(error) throw error;
+        if(error) serverErrorResponse(error);
 
         if(rows.length == 0){
             return userErrorResponse("ID Film tidak ditemukan", res)
@@ -90,7 +90,7 @@ exports.history = function (req, res){
     var data = [dataToken.id_user]
 
     conn.query(query, data, function(error, rows){
-        if (error) throw (error);
+        if (error) serverErrorResponse(error);
 
         if(rows.length == 0){
             return successResponse("User tidak pernah melakukan pembelian tiket", res)
@@ -127,7 +127,7 @@ exports.historyById = function (req, res){
     var data = [dataToken.id_user, post.id_history]
 
     conn.query(query, data, function(error, rows){
-        if (error) throw (error);
+        if (error) serverErrorResponse(error);
 
         if(rows.length == 0){
             return userErrorResponse("ID History tidak ditemukan", res)

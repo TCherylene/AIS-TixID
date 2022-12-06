@@ -7,7 +7,7 @@ const conn = require('../middleware/connection2');
 var mysql = require('mysql');
 
 function serverErrorResponse(error) {
-    throw error;
+    return console.log(error);
 }
 
 function successResponse(message, res){
@@ -80,7 +80,7 @@ exports.history = function (req, res){
     var query = "SELECT * FROM history AS hs JOIN Pembelian AS pb ON hs.id_pembelian = pb.id_pembelian"
 
     conn.query(query, function(error, rows){
-        if (error) throw (error);
+        if (error) serverErrorResponse(error);
 
         if(rows.length == 0){
             return successResponse("Tidak ada riwayat pembelian", res)
@@ -110,7 +110,7 @@ exports.historyUser = function (req, res){
     var data = [post.id_user]
 
     conn.query(query, data, function(error, rows){
-        if (error) throw (error);
+        if (error) serverErrorResponse(error);
 
         if(rows.length == 0){
             return userErrorResponse("User tidak pernah melakukan pembelian tiket", res)

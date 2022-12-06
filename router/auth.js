@@ -7,8 +7,8 @@ const conn = require('../middleware/connection2');
 
 var error1 = "hello";
 
-function serverErrorResponse(error1, error) {
-     return response.serverError(error1, error);
+function serverErrorResponse(error) {
+     return console.log(error);
 }
 
 function successResponse(message, res){
