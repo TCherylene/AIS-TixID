@@ -38,7 +38,7 @@ exports.registrasi = function (req, res) {
      }
 
      if (post.role == null){
-          post.role = 0;
+          post.role = "0";
      }
 
      conn.query(queryCekNomorHp, function(error, rows){
@@ -53,8 +53,8 @@ exports.registrasi = function (req, res) {
                 conn.query(queryInsertData, table, function(error, result){
                     if (error) return serverErrorResponse(error);
 
-                    // TODO: Add Registrasi ke DANA
-                    integration.registrasi();
+                    // TODO: Add Registrasi ke DANA (SOLVED)
+                    integration.registrasi(post);
 
                     return successResponse("Pendaftaran berhasil", res);
                 })
