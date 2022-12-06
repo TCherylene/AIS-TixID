@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var verifikasi = require('../middleware/verifikasi')
+var verifikasi = require('../middleware/verifikasi');
+var admin_verification = require('../middleware/admin_verification');
 var auth = require('./auth');
-var jsonku = require('./logged_in');
+var users = require('./users');
+var admin = require('./admin');
 
 router.get('/', (req, res) => {
     res.send("Hello world!");
@@ -17,19 +19,21 @@ router.post('/profil', auth.registrasi);
 router.post('/login', auth.login);
 
 // GET profil - Menampilkan informasi akun
-router.get('/profil', verifikasi(), jsonku.profil)
+router.get('/profil', verifikasi(), users.profil)
 
 // GET Film - Menampilkan informasi film
-router.get('/film', jsonku.film);
-router.get('/film/:id', jsonku.filmById);
+router.get('/film', users.film);
+router.get('/film/:id', users.filmById);
 
 // GET History - Menampilkan informasi history pembelian
-router.get('/history', verifikasi(), jsonku.history);
-router.get('/history/:id', verifikasi(), jsonku.historyById);
-
-// ----------------------------- BACKUP API -----------------------------
+router.get('/history', verifikasi(), users.history);
+router.get('/history/:id', verifikasi(), users.historyById);
 
 // GET PEMBELIAN - SEMENTARA AJA BUAT NGETES INSERT PEMBELIAN :)
-router.post('/pembelian', verifikasi(), jsonku.pembelian);
+router.post('/pembelian', verifikasi(), users.pembelian);
+
+// ----------------------------- ADMIN -----------------------------
+router.post('/film', admin_verification(), admin.film);
+router.post('/bioskop', admin_verification(), admin.bioskop);
 
 module.exports = router;

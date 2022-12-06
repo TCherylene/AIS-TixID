@@ -1,21 +1,29 @@
 -- DIGUNAKAN UNTUK PEMBUATAN DATABASE (TANPA DATA)
-CREATE TABLE Users (
+CREATE TABLE users (
 	id_user int AUTO_INCREMENT,
     nama varchar (30),
     nomorhp varchar (20),
     password varchar (30),
+    role_user tinyint,
     
     PRIMARY KEY (id_user)
 );
 
-CREATE TABLE Bioskop (
+CREATE TABLE jabatan(
+    jabatan tinyint,
+    nama_role varchar(10),
+
+    PRIMARY KEY (role)
+)
+
+CREATE TABLE bioskop (
 	id_bioskop int AUTO_INCREMENT, 
     nama_bioskop varchar(50),
     
     PRIMARY KEY (id_bioskop)
 );
 
-CREATE TABLE Film (
+CREATE TABLE film (
 	id_film int AUTO_INCREMENT,
     judul_film varchar(50),
     tanggal_film date,
@@ -26,19 +34,19 @@ CREATE TABLE Film (
     PRIMARY KEY (id_film)
 );
 
-CREATE TABLE Pembelian (
+CREATE TABLE pembelian (
 	id_pembelian int AUTO_INCREMENT,
     id_user int,
     id_film int,
     jumlah_tiket tinyint,
-    tanggal_pembelian date DEFAULT CURRENT_TIMESTAMP,
-    waktu_pembelian time DEFAULT CURRENT_TIMESTAMP,
+    tanggal_pembelian DATETIME DEFAULT CURRENT_TIMESTAMP,
+    -- waktu_pembelian time DEFAULT CURRENT_TIMESTAMP,
     status_pembelian tinyint, 
     
     PRIMARY KEY (id_pembelian)
 );
 
-CREATE TABLE History (
+CREATE TABLE history (
 	id_history int AUTO_INCREMENT,
     id_pembelian int,
     
@@ -46,12 +54,15 @@ CREATE TABLE History (
 );
 
 -- ADD FOREIGN KEY
-ALTER TABLE Film
-ADD FOREIGN KEY (id_bioskop) REFERENCES Bioskop(id_bioskop);
+ALTER TABLE users
+ADD FOREIGN KEY (role_user) REFERENCES jabatan(jabatan);
 
-ALTER TABLE Pembelian
-ADD FOREIGN KEY (id_user) REFERENCES Users(id_user),
-ADD FOREIGN KEY (id_film) REFERENCES Film(id_film);
+ALTER TABLE film
+ADD FOREIGN KEY (id_bioskop) REFERENCES bioskop(id_bioskop);
 
-ALTER TABLE History
-ADD FOREIGN KEY (id_pembelian) REFERENCES Pembelian(id_pembelian);
+ALTER TABLE pembelian
+ADD FOREIGN KEY (id_user) REFERENCES users(id_user),
+ADD FOREIGN KEY (id_film) REFERENCES film(id_film);
+
+ALTER TABLE history
+ADD FOREIGN KEY (id_pembelian) REFERENCES pembelian(id_pembelian);

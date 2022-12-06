@@ -1,4 +1,4 @@
-const conn = require('../middleware/connection');
+const conn = require('../middleware/connection2');
 var mysql = require('mysql');
 
 var insertHistory = require('./insertHistory');

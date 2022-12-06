@@ -9,3 +9,9 @@ SELECT * FROM film AS fl
 JOIN bioskop AS bs
 ON bs.id_bioskop = fl.id_bioskop
 WHERE id_film = xxx
+
+-- SELECT GABUNGAN users & role
+SELECT * FROM users AS us
+JOIN jabatan AS jb 
+ON us.role_user = jb.jabatan
+WHERE id_user = xxx

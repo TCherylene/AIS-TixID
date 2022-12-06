@@ -3,6 +3,7 @@ var response = require('../res');
 var jwt = require('jsonwebtoken');
 var config = require('../config/secret');
 const conn = require('../middleware/connection');
+// const conn = require('../middleware/connection2');
 
 var error1 = "hello";
 
@@ -23,7 +24,8 @@ exports.registrasi = function (req, res) {
      var post = {
           nama: req.body.nama,
           password: req.body.password,
-          nomorhp: req.body.nomorhp
+          nomorhp: req.body.nomorhp,
+          role: req.body.role
      }
 
      var query = "SELECT nomorhp FROM users WHERE nomorhp = ?";
@@ -36,14 +38,18 @@ exports.registrasi = function (req, res) {
         return userErrorResponse("Masukkan nomorhp, nama, dan password")
      }
 
+     if (post.role == null){
+          post.role = 0;
+     }
+
      conn.query(queryCekNomorHp, function(error, rows){
         if(error){
             return serverErrorResponse(error1, error);
         } else {
             // Kalau user belum ada
             if (rows.length == 0){
-                var queryInsertData = "INSERT INTO users(nama, password, nomorhp) VALUES(?, ?, ?)"
-                var table = [post.nama, post.password, post.nomorhp];
+                var queryInsertData = "INSERT INTO users(nama, password, nomorhp, role_user) VALUES(?, ?, ?, ?)"
+                var table = [post.nama, post.password, post.nomorhp, post.role];
 
                 conn.query(queryInsertData, table, function(error, result){
                     if (error) return serverErrorResponse(error1, error);
@@ -70,7 +76,7 @@ exports.login = function (req, res) {
          return userErrorResponse("Nomorhp dan password tidak boleh kosong", res)
     }
 
-    var query = "SELECT id_user, nama, nomorhp, password FROM users WHERE nomorhp=? AND password=?";
+    var query = "SELECT * FROM users WHERE nomorhp = ? AND password=?";
     var table = [post.nomorhp, post.password];
 
     queryCekData = mysql.format(query, table);
