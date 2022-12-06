@@ -11,6 +11,16 @@ function requestMethod (method, headers, raw){
     return request;
 }
 
+async function getResponse(requestMethod){
+    try {
+        let res = await fetch(url, requestMethod)
+        console.log("Fetch berhasil");
+        return await (res.text());
+    } catch(error) {
+        console.log('error', error)
+    };
+  }
+
 const integration = {
     registrasi: async function(data){
         var myHeaders = new Headers();
@@ -22,13 +32,8 @@ const integration = {
             "pass":data.password
         })
 
-        console.log("Data json" + raw);
-
-        await fetch(baseURL + "/register", requestMethod('POST', myHeaders, raw))
-            .then(response => {
-                console.log(response);
-            })
-            .catch(error => console.log ('error', error))
+        let response = await getResponse(baseURL + "/register", requestMethod('POST', myHeaders, raw));
+        console.log(JSON.parse(response));
     }
 }
 
