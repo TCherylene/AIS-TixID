@@ -91,10 +91,6 @@ exports.history = function (req, res){
             rows.forEach(element => {
                 history.push(element)
             });
-
-            if (rows[0].status_pembelian == 0){
-                rows[0].status_pembelian = "Belum Terkirim"
-            }
         }
 
         return res.status(200).json({
@@ -104,7 +100,7 @@ exports.history = function (req, res){
     })
 }
 
-// ----- GET HISTORY BY ID -----
+// ----- GET HISTORY BY ID USER -----
 exports.historyUser = function (req, res){
     var post = {
         id_user: req.params.iduser
@@ -125,10 +121,6 @@ exports.historyUser = function (req, res){
             rows.forEach(element => {
                 history.push(element)
             });
-
-            if (rows[0].status_pembelian == 0){
-                rows[0].status_pembelian = "Belum Terkirim"
-            }
         }
 
         return res.status(200).json({
