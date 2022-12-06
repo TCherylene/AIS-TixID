@@ -36,4 +36,7 @@ router.post('/pembelian', verifikasi(), users.pembelian);
 router.post('/film', admin_verification(), admin.film);
 router.post('/bioskop', admin_verification(), admin.bioskop);
 
+router.get('/allhistory', admin_verification(), admin.history);
+router.get('/allhistory/:iduser', admin_verification(), admin.historyUser);
+
 module.exports = router;

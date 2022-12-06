@@ -74,3 +74,66 @@ exports.bioskop = function (req, res){
         })
     })
 }
+
+// ----- GET HISTORY -----
+exports.history = function (req, res){
+    var query = "SELECT * FROM history AS hs JOIN Pembelian AS pb ON hs.id_pembelian = pb.id_pembelian"
+
+    conn.query(query, function(error, rows){
+        if (error) throw (error);
+
+        if(rows.length == 0){
+            return successResponse("User tidak pernah melakukan pembelian tiket", res)
+        }
+
+        var history = [];
+        if (rows.length >= 1){
+            rows.forEach(element => {
+                history.push(element)
+            });
+
+            if (rows[0].status_pembelian == 0){
+                rows[0].status_pembelian = "Belum Terkirim"
+            }
+        }
+
+        return res.status(200).json({
+            "status": 200,
+            "history": history
+        })
+    })
+}
+
+// ----- GET HISTORY BY ID -----
+exports.historyUser = function (req, res){
+    var post = {
+        id_user: req.params.iduser
+    }
+
+    var query = "SELECT * FROM history AS hs JOIN Pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ?"
+    var data = [post.id_user]
+
+    conn.query(query, data, function(error, rows){
+        if (error) throw (error);
+
+        if(rows.length == 0){
+            return userErrorResponse("User tidak pernah melakukan pembelian tiket", res)
+        }
+
+        var history = [];
+        if (rows.length >= 1){
+            rows.forEach(element => {
+                history.push(element)
+            });
+
+            if (rows[0].status_pembelian == 0){
+                rows[0].status_pembelian = "Belum Terkirim"
+            }
+        }
+
+        return res.status(200).json({
+            "status": 200,
+            "history": history
+        })
+    })
+}

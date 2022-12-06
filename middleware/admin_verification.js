@@ -31,7 +31,7 @@ function admin_verification(){
                 }
             });
         }else {
-            return userErrorResponse("Token tidak valid", rest)
+            return userErrorResponse("Masukkan Token", rest)
         }
     }
 }
