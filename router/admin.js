@@ -77,7 +77,7 @@ exports.bioskop = function (req, res){
 
 // ----- GET HISTORY -----
 exports.history = function (req, res){
-    var query = "SELECT * FROM history AS hs JOIN Pembelian AS pb ON hs.id_pembelian = pb.id_pembelian"
+    var query = "SELECT * FROM history AS hs JOIN pembelian AS pb ON hs.id_pembelian = pb.id_pembelian"
 
     conn.query(query, function(error, rows){
         if (error) serverErrorResponse(error);
@@ -106,7 +106,7 @@ exports.historyUser = function (req, res){
         id_user: req.params.iduser
     }
 
-    var query = "SELECT * FROM history AS hs JOIN Pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ?"
+    var query = "SELECT * FROM history AS hs JOIN pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ?"
     var data = [post.id_user]
 
     conn.query(query, data, function(error, rows){
@@ -137,7 +137,7 @@ exports.historyUserID = function (req, res){
         id_history: req.params.idhistory
     }
 
-    var query = "SELECT * FROM history AS hs JOIN Pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ? AND id_history = ?"
+    var query = "SELECT * FROM history AS hs JOIN pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ? AND id_history = ?"
     var data = [post.id_user, post.id_history]
 
     conn.query(query, data, function(error, rows){
