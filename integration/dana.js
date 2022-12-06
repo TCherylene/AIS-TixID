@@ -11,7 +11,7 @@ function requestMethod (method, headers, raw){
     return request;
 }
 
-async function getResponse(requestMethod){
+async function getResponse(url, requestMethod){
     try {
         let res = await fetch(url, requestMethod)
         console.log("Fetch berhasil");
@@ -33,7 +33,22 @@ const integration = {
         })
 
         let response = await getResponse(baseURL + "/register", requestMethod('POST', myHeaders, raw));
-        console.log(JSON.parse(response));
+        return JSON.parse(response);
+    },
+
+    pembayaran: async function(token, data){
+        console.log (token)
+
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", token)
+        myHeaders.append("Content-Type", "application/json")
+
+        var raw = JSON.stringify({
+            price: data
+        })
+
+        let response = await getResponse(baseURL + "/transaksi", requestMethod('POST', myHeaders, raw));
+        return JSON.parse(response);
     }
 }
 

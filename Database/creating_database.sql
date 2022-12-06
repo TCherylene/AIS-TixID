@@ -48,6 +48,7 @@ CREATE TABLE pembelian (
 CREATE TABLE history (
 	id_history int AUTO_INCREMENT,
     id_pembelian int,
+    harga_pembelian bigint,
     
     PRIMARY KEY (id_history)
 );

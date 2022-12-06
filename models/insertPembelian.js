@@ -3,7 +3,7 @@ var mysql = require('mysql');
 
 var insertHistory = require('./insertHistory');
 
-function insertPembelian(id_user, id_film, jumlah_tiket){
+function insertPembelian(id_user, id_film, jumlah_tiket, dataHargaTiket){
     var query = "INSERT INTO pembelian(id_user, id_film, jumlah_tiket, status_pembelian) VALUES (?, ?, ?, 0)"
     var data = [id_user, id_film, jumlah_tiket];
 
@@ -16,7 +16,7 @@ function insertPembelian(id_user, id_film, jumlah_tiket){
         }
 
         console.log("Data pembelian tersimpan");
-        insertHistory(rows.insertId);
+        insertHistory(rows.insertId, dataHargaTiket);
     })
 }
 

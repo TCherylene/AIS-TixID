@@ -50,13 +50,15 @@ exports.registrasi = function (req, res) {
                 var queryInsertData = "INSERT INTO users(nama, password, nomorhp, role_user) VALUES(?, ?, ?, ?)"
                 var table = [post.nama, post.password, post.nomorhp, post.role];
 
-                conn.query(queryInsertData, table, function(error, result){
+                conn.query(queryInsertData, table, async function(error, result){
                     if (error) return serverErrorResponse(error);
 
-                    // TODO: Add Registrasi ke DANA (SOLVED)
-                    integration.registrasi(post);
-
-                    return successResponse("Pendaftaran berhasil", res);
+                    let hasilIntegrasi = await integration.registrasi(post);
+                    if(hasilIntegrasi.status == 200){
+                         return successResponse("Berhasil mendaftarkan akun pada DANA dan TIX ID", res)
+                    } else {
+                         return successResponse("Berhasil mendaftarkan akun pada TIX ID", res);
+                    }
                 })
             } else {
                 return userErrorResponse("Nomor HP terlah terdaftar", res);

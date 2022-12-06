@@ -5,7 +5,8 @@ var parsetoken = require('../middleware/parseJWT');
 // const conn = require('../middleware/connection');
 const conn = require('../middleware/connection2');
 var mysql = require('mysql');
-const insertPembelian = require('../models/insertPembelian');
+const insertpembelian = require('../models/insertpembelian');
+const integration = require('../integration/dana');
 
 function serverErrorResponse(error) {
     return console.log(error);
@@ -81,12 +82,38 @@ exports.filmById = function (req, res){
     })
 }
 
+// ----- POST pembelian BY ID FILM -----
+exports.pembelian = function (req, res){
+    var token = req.headers.authorization;
+    var dataToken = parsetoken(token);
+
+    var post = {
+        id_film: req.body.id_film,
+        jumlah_tiket: req.body.jumlah_tiket
+    }
+
+    conn.query("SELECT * FROM film WHERE id_film = ?", [post.id_film], async function (error, rows){
+        if(error) return serverErrorResponse(error);
+
+        if(rows.length == 0){
+            return userErrorResponse("Id film tidak ditemukan", res)
+        }
+
+        var hargaTotal = post.jumlah_tiket * rows[0].harga_tiket
+        
+        insertpembelian(dataToken.id_user, post.id_film, post.jumlah_tiket, hargaTotal);
+        // ******************* NANTI INTEGRASI KE DANA ******************* //
+        let hasilPembayaran = await integration.pembayaran(token, hargaTotal);
+        return successResponse("Pembelian berhasil", res)
+    })
+}
+
 // ----- GET HISTORY -----
 exports.history = function (req, res){
     var token = req.headers.authorization;
     var dataToken = parsetoken(token);
 
-    var query = "SELECT * FROM history AS hs JOIN Pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ?"
+    var query = "SELECT * FROM history AS hs JOIN pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ?"
     var data = [dataToken.id_user]
 
     conn.query(query, data, function(error, rows){
@@ -123,7 +150,7 @@ exports.historyById = function (req, res){
         id_history: req.params.id
     }
 
-    var query = "SELECT * FROM history AS hs JOIN Pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ? AND id_history = ?"
+    var query = "SELECT * FROM history AS hs JOIN pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ? AND id_history = ?"
     var data = [dataToken.id_user, post.id_history]
 
     conn.query(query, data, function(error, rows){
@@ -140,34 +167,6 @@ exports.historyById = function (req, res){
         return res.status(200).json({
             "status": 200,
             "history": rows[0]
-        })
-    })
-}
-
-// ----- POST PEMBELIAN BY ID FILM -----
-exports.pembelian = function (req, res){
-    var token = req.headers.authorization;
-    var dataToken = parsetoken(token);
-
-    var post = {
-        id_film: req.body.id_film,
-        jumlah_tiket: req.body.jumlah_tiket
-    }
-
-    insertPembelian(dataToken.id_user, post.id_film, post.jumlah_tiket);
-
-    // ******************* NANTI INTEGRASI KE DANA ******************* //
-
-    var query = "SELECT * FROM history AS hs JOIN Pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ?"
-    var data = [dataToken.id_user]
-
-    conn.query(query, data, function(error, rows){
-        if (error) return serverErrorResponse(error);
-
-        return res.status(200).json({
-            "status":200,
-            "id_history": rows[rows.length].id_history,
-            "id_pembelian": rows[rows.length].id_pembelian
         })
     })
 }
