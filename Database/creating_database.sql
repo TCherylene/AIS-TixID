@@ -40,7 +40,6 @@ CREATE TABLE pembelian (
     id_film int,
     jumlah_tiket tinyint,
     tanggal_pembelian DATETIME DEFAULT CURRENT_TIMESTAMP,
-    -- waktu_pembelian time DEFAULT CURRENT_TIMESTAMP,
     status_pembelian tinyint, 
     
     PRIMARY KEY (id_pembelian)

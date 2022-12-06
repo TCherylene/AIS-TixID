@@ -83,7 +83,7 @@ exports.history = function (req, res){
         if (error) throw (error);
 
         if(rows.length == 0){
-            return successResponse("User tidak pernah melakukan pembelian tiket", res)
+            return successResponse("Tidak ada riwayat pembelian", res)
         }
 
         var history = [];
@@ -126,6 +126,30 @@ exports.historyUser = function (req, res){
         return res.status(200).json({
             "status": 200,
             "history": history
+        })
+    })
+}
+
+// ----- GET HISTORY BY ID USER & ID HISTORY -----
+exports.historyUserID = function (req, res){
+    var post = {
+        id_user: req.params.iduser,
+        id_history: req.params.idhistory
+    }
+
+    var query = "SELECT * FROM history AS hs JOIN Pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ? AND id_history = ?"
+    var data = [post.id_user, post.id_history]
+
+    conn.query(query, data, function(error, rows){
+        if (error) serverErrorResponse(error);
+
+        if(rows.length == 0){
+            return userErrorResponse("ID User atau ID History tidak ditemukan", res)
+        }
+
+        return res.status(200).json({
+            "status": 200,
+            "history": rows[0]
         })
     })
 }

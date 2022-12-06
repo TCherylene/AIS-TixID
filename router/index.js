@@ -38,5 +38,6 @@ router.post('/bioskop', admin_verification(), admin.bioskop);
 
 router.get('/allhistory', admin_verification(), admin.history);
 router.get('/allhistory/:iduser', admin_verification(), admin.historyUser);
+router.get('/allhistory/:iduser/:idhistory', admin_verification(), admin.historyUserID);
 
 module.exports = router;
