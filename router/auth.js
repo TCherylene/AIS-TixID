@@ -2,8 +2,8 @@ var mysql = require('mysql');
 var response = require('../res');
 var jwt = require('jsonwebtoken');
 var config = require('../config/secret');
-const conn = require('../middleware/connection');
-// const conn = require('../middleware/connection2');
+// const conn = require('../middleware/connection');
+const conn = require('../middleware/connection2');
 const integration = require('../integration/dana');
 
 function serverErrorResponse(error) {
