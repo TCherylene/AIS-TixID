@@ -2,10 +2,9 @@ var mysql = require('mysql');
 var response = require('../res');
 var jwt = require('jsonwebtoken');
 var config = require('../config/secret');
-// const conn = require('../middleware/connection');
-const conn = require('../middleware/connection2');
-
-var error1 = "hello";
+const conn = require('../middleware/connection');
+// const conn = require('../middleware/connection2');
+const integration = require('../integration/dana');
 
 function serverErrorResponse(error) {
      return console.log(error);
@@ -44,7 +43,7 @@ exports.registrasi = function (req, res) {
 
      conn.query(queryCekNomorHp, function(error, rows){
         if(error){
-            return serverErrorResponse(error1, error);
+            return serverErrorResponse( error);
         } else {
             // Kalau user belum ada
             if (rows.length == 0){
@@ -52,10 +51,12 @@ exports.registrasi = function (req, res) {
                 var table = [post.nama, post.password, post.nomorhp, post.role];
 
                 conn.query(queryInsertData, table, function(error, result){
-                    if (error) return serverErrorResponse(error1, error);
-                    return successResponse("Pendaftaran berhasil", res);
+                    if (error) return serverErrorResponse(error);
 
                     // TODO: Add Registrasi ke DANA
+                    integration.registrasi();
+
+                    return successResponse("Pendaftaran berhasil", res);
                 })
             } else {
                 return userErrorResponse("Nomor HP terlah terdaftar", res);
@@ -82,7 +83,7 @@ exports.login = function (req, res) {
     queryCekData = mysql.format(query, table);
 
     conn.query(queryCekData, function (error, rows) {
-         if (error) return serverErrorResponse(error1, error);
+         if (error) return serverErrorResponse(error);
 
          if (rows.length == 1) {
               var token = jwt.sign({rows}, config.secret);

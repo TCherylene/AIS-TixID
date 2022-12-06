@@ -2,8 +2,8 @@
 
 var response = require('../res');
 var parsetoken = require('../middleware/parseJWT');
-// const conn = require('../middleware/connection');
-const conn = require('../middleware/connection2');
+const conn = require('../middleware/connection');
+// const conn = require('../middleware/connection2');
 var mysql = require('mysql');
 const insertPembelian = require('../models/insertPembelian');
 

@@ -42,13 +42,6 @@ routes(app);
 // Daftarkan menu routes dari index
 app.use('/api', require('./router'));
 
-io.on('connection', (socket) => {
-    console.log('user connected');
-    socket.on('disconnect', function () {
-        console.log('user disconnected');
-    });
-})
-
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
     console.warn(`App listening on ${PORT}`);
