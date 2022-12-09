@@ -30,7 +30,7 @@ exports.registrasi = function (req, res) {
      var query = "SELECT nomorhp FROM users WHERE nomorhp = ?";
      var table = [post.nomorhp];
 
-     queryCekNomorHp = mysql.format(query, table);
+     var queryCekNomorHp = mysql.format(query, table);
 
      // Kalau ada yang kosong
      if (post.nama == null || post.password == null || post.nomorhp == null){
@@ -82,7 +82,7 @@ exports.login = function (req, res) {
     var query = "SELECT * FROM users WHERE nomorhp = ? AND password=?";
     var table = [post.nomorhp, post.password];
 
-    queryCekData = mysql.format(query, table);
+    var queryCekData = mysql.format(query, table);
 
     conn.query(queryCekData, function (error, rows) {
          if (error) return serverErrorResponse(error);
