@@ -27,7 +27,7 @@ router.get('/film/:id', users.filmById);
 
 // GET Bioskop - Menampilkan informasi bioskop
 router.get('/bioskop', users.bioskop);
-router.get('/bioskop', users.bioskopById);
+router.get('/bioskop', users.bioskopByID);
 
 // GET History - Menampilkan informasi history pembelian
 router.get('/history', verifikasi(), users.history);
