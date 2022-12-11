@@ -5,7 +5,7 @@ var parsetoken = require('../middleware/parseJWT');
 // const conn = require('../middleware/connection');
 const conn = require('../middleware/connection2');
 var mysql = require('mysql');
-const insertpembelian = require('../models/insertpembelian');
+const insertpembelian = require('../models/insertPembelian');
 const integration = require('../integration/dana');
 const updatePembelian = require('../models/updatePembelian')
 
@@ -119,10 +119,7 @@ exports.history = function (req, res){
     var token = req.headers.authorization;
     var dataToken = parsetoken(token);
 
-    var query = `SELECT * FROM pembelian AS pb
-                INNER JOIN film AS fi ON pb.id_film = fi.id_film
-                INNER JOIN history AS hs ON hs.id_pembelian = pb.id_pembelian
-                WHERE id_user = ?`
+    var query = "SELECT * FROM pembelian AS pb INNER JOIN film AS fi ON pb.id_film = fi.id_film INNER JOIN history AS hs ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ?"
     var data = [dataToken.id_user]
 
     conn.query(query, data, function(error, rows){
@@ -137,10 +134,6 @@ exports.history = function (req, res){
             rows.forEach(element => {
                 history.push(element)
             });
-
-            if (rows[0].status_pembelian == 0){
-                rows[0].status_pembelian = "Belum Terkirim"
-            }
         }
 
         return res.status(200).json({
@@ -159,10 +152,7 @@ exports.historyById = function (req, res){
         id_history: req.params.id
     }
 
-    var query = `SELECT * FROM pembelian AS pb
-                INNER JOIN film AS fi ON pb.id_film = fi.id_film
-                INNER JOIN history AS hs ON hs.id_pembelian = pb.id_pembelian
-                WHERE id_user = ? AND id_history = ?`
+    var query = "SELECT * FROM pembelian AS pb INNER JOIN film AS fi ON pb.id_film = fi.id_film INNER JOIN history AS hs ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ? AND id_history = ?"
     var data = [dataToken.id_user, post.id_history]
 
     conn.query(query, data, function(error, rows){
@@ -170,10 +160,6 @@ exports.historyById = function (req, res){
 
         if(rows.length == 0){
             return userErrorResponse("ID History tidak ditemukan", res)
-        }
-
-        if (rows[0].status_pembelian == 0){
-            rows[0].status_pembelian = "Belum Terkirim"
         }
 
         return res.status(200).json({
