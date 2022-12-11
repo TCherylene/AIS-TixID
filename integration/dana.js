@@ -50,27 +50,36 @@ const integration = {
         return JSON.parse(response);
     },
 
-    pembayaran: async function(data_user, data){
-        console.log (data_user)
-        let dataToken = await this.login(data_user);
-        console.log(dataToken)
+    successLogin: async function(harga, tokenSarah){
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + tokenSarah)
+        myHeaders.append("Content-Type", "application/json")
 
-        if(dataToken.success == true){
-            console.log("Login berhasil");
+        var raw = JSON.stringify({
+            price: harga
+        })
 
-            var myHeaders = new Headers();
-            myHeaders.append("Authorization", "Bearer " + dataToken.token)
-            myHeaders.append("Content-Type", "application/json")
-    
-            var raw = JSON.stringify({
-                price: data
-            })
-    
-            let response = await getResponse(baseURL + "/transaksi", requestMethod('POST', myHeaders, raw));
-            console.log("Berhasil mengirim request pembayaran");
-            console.log(response);
-            return JSON.parse(response);
-        } 
+        var txtRequest = requestMethod('POST', myHeaders, raw)
+
+        let response = await getResponse(baseURL + "/transaksi", txtRequest);
+        console.log("Berhasil mengirim request pembayaran");
+        console.log(response);
+        return JSON.parse(response);
+    },
+
+    pembayaran: async function(data_user, data, tokenSarah){
+        if(tokenSarah == null){
+            tokenSarah = await this.login(data_user);
+            console.log(tokenSarah)
+
+            if(tokenSarah.success == true){
+                return this.successLogin(data, tokenSarah.token)
+            }
+
+            else return false;
+        } else {
+            return this.successLogin(data, tokenSarah)
+        }
     }
 }
 

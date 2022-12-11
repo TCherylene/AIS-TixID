@@ -90,7 +90,8 @@ exports.pembelian = function (req, res){
 
     var post = {
         id_film: req.body.id_film,
-        jumlah_tiket: req.body.jumlah_tiket
+        jumlah_tiket: req.body.jumlah_tiket,
+        tokenSarah: req.body.tokenSarah
     }
 
     conn.query("SELECT * FROM film JOIN pembelian ON film.id_film = pembelian.id_film WHERE pembelian.id_film = ?", [post.id_film], async function (error, rows){
@@ -104,10 +105,13 @@ exports.pembelian = function (req, res){
         
         insertpembelian(dataToken.id_user, post.id_film, post.jumlah_tiket, hargaTotal);
         // ******************* NANTI INTEGRASI KE DANA ******************* //
-        let hasilPembayaran = await integration.pembayaran(dataToken, hargaTotal);
-        if (hasilPembayaran.status == 200){
+        let hasilPembayaran = await integration.pembayaran(dataToken, hargaTotal, post.tokenSarah);
+
+        if(hasilPembayaran.status == 200){
             updatePembelian(1, rows[rows.length - 1].id_pembelian + 1)
             return successResponse("Pembelian berhasil", res)
+        } else if (hasilPembayaran.status == 400){
+            return userErrorResponse(hasilPembayaran.message, res);
         } else {
             return userErrorResponse("Terjadi kesalahan", res);
         }
