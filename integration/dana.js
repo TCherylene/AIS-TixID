@@ -1,11 +1,16 @@
-const fetch = import("node-fetch");
+const fetch = require('node-fetch')
 
 var baseURL = "https://dana-api.glitch.me/api";
 
 function requestMethod (method, headers, raw){
+    var myHeader = new fetch.Headers();
+    for (let i = 0; i < headers.length; i += 2){
+        myHeader.append(headers[i], headers[i + 1])
+    }
+    
     var request = {
         method: method,
-        headers: headers,
+        headers: myHeader,
         body: raw,
         redirect: 'follow'
     }
@@ -25,9 +30,10 @@ async function getResponse(url, requestMethod){
 
 const integration = {
     registrasi: async function(data){
-        const myHeaders = new fetch.Headers({
-            "Accept": "application/json"
-        })
+        const myHeaders = [
+            "Content-type",
+            "application/json"
+        ]
 
         var raw = JSON.stringify({
             "nama_user": data.nama,
@@ -40,10 +46,10 @@ const integration = {
     },
 
     login: async function(data){
-        const myHeaders = new fetch.Headers({
-            "Accept": "application/json"
-        })
-
+        const myHeaders = [
+            "Content-type",
+            "application/json"
+        ]
         var raw = JSON.stringify({
             "nama_user": data.nama,
             "no_hp":data.nomorhp,
@@ -55,11 +61,13 @@ const integration = {
     },
 
     successLogin: async function(harga, tokenSarah){
-        const myHeaders = new fetch.Headers({
-            "Accept": "application/json",
-            "Authorization" : "Bearer " + tokenSarah
-        })
-
+        console.log("Berhasil login")
+        const myHeaders = [
+            "Content-type",
+            "application/json",
+            "Authorization",
+            "Bearer " + tokenSarah
+        ]
         var raw = JSON.stringify({
             price: harga
         })
