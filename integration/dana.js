@@ -1,3 +1,5 @@
+const fetch = import("node-fetch");
+
 var baseURL = "https://dana-api.glitch.me/api";
 
 function requestMethod (method, headers, raw){
@@ -23,8 +25,9 @@ async function getResponse(url, requestMethod){
 
 const integration = {
     registrasi: async function(data){
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json")
+        const myHeaders = new fetch.Headers({
+            "Accept": "application/json"
+        })
 
         var raw = JSON.stringify({
             "nama_user": data.nama,
@@ -32,13 +35,14 @@ const integration = {
             "pass":data.password
         })
 
-        let response = await getResponse(baseURL + "/register", requestMethod('POST', myHeaders, raw));
+        let response = await getResponse(baseURL + "/register", requestMethod('POST', myHeaders, raw)).catch(e => { console.log(e) });
         return JSON.parse(response);
     },
 
     login: async function(data){
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json")
+        const myHeaders = new fetch.Headers({
+            "Accept": "application/json"
+        })
 
         var raw = JSON.stringify({
             "nama_user": data.nama,
@@ -46,14 +50,15 @@ const integration = {
             "pass":data.password
         })
 
-        let response = await getResponse(baseURL + "/login", requestMethod('POST', myHeaders, raw));
+        let response = await getResponse(baseURL + "/login", requestMethod('POST', myHeaders, raw)).catch(e => { console.log(e) });
         return JSON.parse(response);
     },
 
     successLogin: async function(harga, tokenSarah){
-        var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + tokenSarah)
-        myHeaders.append("Content-Type", "application/json")
+        const myHeaders = new fetch.Headers({
+            "Accept": "application/json",
+            "Authorization" : "Bearer " + tokenSarah
+        })
 
         var raw = JSON.stringify({
             price: harga
@@ -69,7 +74,7 @@ const integration = {
 
     pembayaran: async function(data_user, data, tokenSarah){
         if(tokenSarah == null){
-            tokenSarah = await this.login(data_user);
+            tokenSarah = await this.login(data_user).catch(e => { console.log(e) });
             console.log(tokenSarah)
 
             if(tokenSarah.success == true){
