@@ -21,3 +21,8 @@ SELECT harga_tiket FROM history AS hs
 JOIN film AS fi 
 ON fi.id_film = hs.id_film
 WHERE id_user = xxx
+
+-- SELECT GABUNGAN History, Film, Pembelian
+SELECT * FROM pembelian AS pb
+INNER JOIN film AS fi ON pb.id_film = fi.id_film
+INNER JOIN history AS hs ON hs.id_pembelian = pb.id_pembelian

@@ -119,7 +119,10 @@ exports.history = function (req, res){
     var token = req.headers.authorization;
     var dataToken = parsetoken(token);
 
-    var query = "SELECT * FROM history AS hs JOIN pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ?"
+    var query = `SELECT * FROM pembelian AS pb
+                INNER JOIN film AS fi ON pb.id_film = fi.id_film
+                INNER JOIN history AS hs ON hs.id_pembelian = pb.id_pembelian
+                WHERE id_user = ?`
     var data = [dataToken.id_user]
 
     conn.query(query, data, function(error, rows){
@@ -156,7 +159,10 @@ exports.historyById = function (req, res){
         id_history: req.params.id
     }
 
-    var query = "SELECT * FROM history AS hs JOIN pembelian AS pb ON hs.id_pembelian = pb.id_pembelian WHERE id_user = ? AND id_history = ?"
+    var query = `SELECT * FROM pembelian AS pb
+                INNER JOIN film AS fi ON pb.id_film = fi.id_film
+                INNER JOIN history AS hs ON hs.id_pembelian = pb.id_pembelian
+                WHERE id_user = ? AND id_history = ?`
     var data = [dataToken.id_user, post.id_history]
 
     conn.query(query, data, function(error, rows){
