@@ -25,11 +25,15 @@ router.get('/profil', verifikasi(), users.profil)
 router.get('/film', users.film);
 router.get('/film/:id', users.filmById);
 
+// GET Bioskop - Menampilkan informasi bioskop
+router.get('/bioskop', users.bioskop);
+router.get('/bioskop', users.bioskopById);
+
 // GET History - Menampilkan informasi history pembelian
 router.get('/history', verifikasi(), users.history);
 router.get('/history/:id', verifikasi(), users.historyById);
 
-// GET PEMBELIAN - SEMENTARA AJA BUAT NGETES INSERT PEMBELIAN :)
+// GET PEMBELIAN
 router.post('/pembelian', verifikasi(), users.pembelian);
 
 // ----------------------------- ADMIN -----------------------------

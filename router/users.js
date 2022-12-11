@@ -60,6 +60,53 @@ exports.film = function(req, res){
     })
 }
 
+// ----- INFORMASI FILM -----
+exports.bioskop = function(req, res){
+    var query = "SELECT * FROM bioskop"
+
+    conn.query (query, function(error, rows){
+        if(error) serverErrorResponse(error);
+
+        var bioskop = [];
+        if (rows.length >= 1){
+            rows.forEach(element => {
+                bioskop.push(element)
+            });
+        } else if (rows.length == 0){
+            bioskop = null;
+        }
+
+        return res.status(200).json({
+            "status": 200,
+            "bioskop": bioskop
+        })
+    })
+}
+
+// ----- INFORMASI BIOSKOP BY ID -----
+exports.bioskopByID = function (req, res){
+    var post = {
+        id_bioskop : req.params.id
+    }
+
+    var query = "SELECT * FROM bioskop WHERE id_bioskop = ?"
+    var data = [post.id_bioskop]
+
+    conn.query (query, data, function(error, rows){
+        if(error) serverErrorResponse(error);
+
+        if(rows.length == 0){
+            return userErrorResponse("ID Film tidak ditemukan", res)
+        } 
+
+        return res.status(200).json({
+            "status": 200,
+            "bioskop": rows[0]
+        })
+    })
+}
+
+
 // ----- INFORMASI FILM BY ID -----
 exports.filmById = function (req, res){
     var post = {
